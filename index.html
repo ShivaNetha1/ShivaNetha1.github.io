@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pandala Shiva — Aspiring AI Automation Engineer & Data Analyst</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #080810;
+      --bg2: #0f0f1a;
+      --bg3: #14141f;
+      --surface: #1a1a2e;
+      --surface2: #22223a;
+      --accent: #00f5c4;
+      --accent2: #7b5ea7;
+      --accent3: #ff6b6b;
+      --text: #f0f0f8;
+      --text2: #9090b0;
+      --text3: #5a5a7a;
+      --border: rgba(0, 245, 196, 0.15);
+      --glow: rgba(0, 245, 196, 0.3);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f5f5ff;
+      --bg2: #eeeeff;
+      --bg3: #e8e8fa;
+      --surface: #ffffff;
+      --surface2: #f0f0ff;
+      --accent: #00b894;
+      --accent2: #6c5ce7;
+      --accent3: #e17055;
+      --text: #1a1a2e;
+      --text2: #4a4a6a;
+      --text3: #8a8aaa;
+      --border: rgba(0, 184, 148, 0.2);
+      --glow: rgba(0, 184, 148, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(8, 8, 16, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s;
+    }
+
+    [data-theme="light"] nav {
+      background: rgba(245, 245, 255, 0.8);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      font-size: 0.8rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-tag span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+      }
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-name span {
+      display: block;
+      -webkit-text-stroke: 2px var(--accent);
+      color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--text2);
+      margin: 1.5rem 0 2rem;
+      line-height: 1.7;
+      font-weight: 300;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-tagline strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      box-shadow: 0 0 30px var(--glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px var(--glow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid var(--accent);
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent 0%, var(--accent) 5%, transparent 10%);
+      animation: spin 8s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .code-block {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+
+    .code-line {
+      display: block;
+    }
+
+    .c-purple {
+      color: #c792ea;
+    }
+
+    .c-green {
+      color: var(--accent);
+    }
+
+    .c-orange {
+      color: #f78c6c;
+    }
+
+    .c-blue {
+      color: #82aaff;
+    }
+
+    .c-comment {
+      color: var(--text3);
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      margin-left: 2px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .floating-badge {
+      position: absolute;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1;
+      margin-bottom: 3rem;
+    }
+
+    .section-title em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text3);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* MARQUEE */
+    .marquee-section {
+      padding: 2rem 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+
+    .marquee-wrapper {
+      display: flex;
+      width: 100%;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 75s linear infinite;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 4px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .marquee-item span {
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--bg2);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--text2);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .about-text strong {
+      color: var(--accent);
+    }
+
+    .currently-learning {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cl-title {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .cl-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cl-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--text2);
+    }
+
+    .skill-category {
+      margin-bottom: 2rem;
+    }
+
+    .skill-cat-name {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--text2);
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 245, 196, 0.05);
+    }
+
+    /* FILTER TABS */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* PROJECTS */
+    #projects {
+      background: var(--bg);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transition: transform 0.4s;
+      transform-origin: left;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 245, 196, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--surface2);
+      line-height: 1;
+      margin-bottom: 1rem;
+      transition: color 0.3s;
+    }
+
+    .project-card:hover .project-number {
+      color: var(--accent);
+      opacity: 0.3;
+    }
+
+    .project-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 1.2rem 0;
+    }
+
+    .tech-tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text3);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+
+    .project-link {
+      color: var(--text3);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .project-link svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .project-card.hidden {
+      display: none;
+    }
+
+    /* AUTOMATIONS */
+    #automations {
+      background: var(--bg2);
+    }
+
+    .auto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .auto-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auto-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform: scaleX(0);
+      transition: transform 0.4s;
+      transform-origin: left;
+    }
+
+    .auto-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(123, 94, 167, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .auto-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .auto-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .auto-badge {
+      display: inline-block;
+      background: rgba(123, 94, 167, 0.15);
+      border: 1px solid rgba(123, 94, 167, 0.4);
+      color: var(--accent2);
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .auto-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .auto-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .auto-flow {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text3);
+      line-height: 1.8;
+    }
+
+    .auto-flow span {
+      color: var(--accent);
+    }
+
+    /* FREELANCE */
+    #freelance {
+      background: var(--bg);
+    }
+
+    .freelance-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+
+    .freelance-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .freelance-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .freelance-content {
+      padding: 3rem;
+    }
+
+    .freelance-badge {
+      display: inline-block;
+      background: rgba(0, 245, 196, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .freelance-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .freelance-desc {
+      color: var(--text2);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .freelance-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .freelance-visual {
+      background: linear-gradient(135deg, var(--surface2), var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      border-left: 1px solid var(--border);
+    }
+
+    .freelance-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* TIMELINE / INTERNSHIPS */
+    #internships {
+      background: var(--bg2);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 3rem 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px var(--glow);
+    }
+
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-org {
+      color: var(--accent2);
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .timeline-highlight {
+      display: inline-block;
+      background: rgba(123, 94, 167, 0.15);
+      border: 1px solid rgba(123, 94, 167, 0.3);
+      color: var(--accent2);
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-top: 0.8rem;
+    }
+
+    /* CERTIFICATIONS */
+    #certifications {
+      background: var(--bg);
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .cert-card:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .cert-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .cert-info {
+      flex: 1;
+    }
+
+    .cert-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .cert-issuer {
+      font-size: 0.75rem;
+      color: var(--text3);
+    }
+
+    .cert-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text3);
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      margin-top: 0.5rem;
+    }
+
+    .cert-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .credly-banner {
+      margin-top: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .credly-text {
+      color: var(--text2);
+      font-size: 0.95rem;
+    }
+
+    .credly-text strong {
+      color: var(--text);
+    }
+
+    /* CONTACT */
+    #contact {
+      background: var(--bg2);
+      text-align: center;
+    }
+
+    .contact-tagline {
+      font-size: 1.1rem;
+      color: var(--text2);
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text2);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-text {
+      color: var(--text3);
+      font-size: 0.85rem;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SVG ICONS shared */
+    .icon-gh {
+      display: inline-block;
+    }
+
+    /* MOBILE */
+    @media(max-width:900px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero,
+      section {
+        padding: 5rem 1.5rem;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .freelance-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .projects-grid,
+      .auto-grid,
+      .certs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .freelance-visual {
+        display: none;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .credly-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+
+
+
+
+  <!-- 🔥 GOOGLE ANALYTICS SAFE + FULL TRACKING -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GBR14YCLK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-9GBR14YCLK', {
+      send_page_view: true
+    });
+
+    // ✅ WAIT FOR DOM LOAD (IMPORTANT FIX)
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // 🔹 PAGE VIEW
+      gtag('event', 'page_view', {
+        page_location: window.location.href,
+        page_title: document.title
+      });
+
+      // 🔹 CLICK TRACKING
+      document.addEventListener('click', function (e) {
+        const el = e.target.closest('a, button');
+        if (!el) return;
+
+        const label = el.innerText.trim() || el.href || 'unknown';
+
+        gtag('event', 'click', {
+          event_category: 'interaction',
+          event_label: label,
+          link_url: el.href || null
+        });
+      });
+
+      // 🔹 OUTBOUND LINKS (FIXED)
+      document.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.addEventListener('click', function () {
+          if (!this.href.includes(location.hostname)) {
+            gtag('event', 'outbound_click', {
+              event_category: 'outbound',
+              event_label: this.href
+            });
+          }
+        });
+      });
+
+      // 🔹 SCROLL TRACKING
+      let scrollMarks = [25, 50, 75, 100];
+      let triggered = [];
+
+      window.addEventListener('scroll', () => {
+        let scrollPercent = (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100;
+
+        scrollMarks.forEach(mark => {
+          if (scrollPercent >= mark && !triggered.includes(mark)) {
+            triggered.push(mark);
+
+            gtag('event', 'scroll', {
+              event_category: 'engagement',
+              event_label: mark + '%'
+            });
+          }
+        });
+      });
+
+      // 🔹 TIME TRACKING
+      setTimeout(() => {
+        gtag('event', 'time_30s', { event_category: 'engagement' });
+      }, 30000);
+
+      setTimeout(() => {
+        gtag('event', 'time_60s', { event_category: 'engagement' });
+      }, 60000);
+
+      // 🔹 SECTION TRACKING
+      const sections = document.querySelectorAll("section");
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            gtag('event', 'section_view', {
+              event_category: 'engagement',
+              event_label: entry.target.id
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      sections.forEach(sec => observer.observe(sec));
+
+      // 🔹 COPY TRACKING
+      document.addEventListener('copy', () => {
+        gtag('event', 'copy', {
+          event_category: 'interaction'
+        });
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">PS.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#automations">Automations</a></li>
+      <li><a href="#freelance">Freelance</a></li>
+      <li><a href="#internships">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-tag"><span></span> Open to Work — Hyderabad</div>
+        <h1 class="hero-name">Pandala<br /><span>Shiva</span></h1>
+        <p class="hero-tagline">
+          I turn <strong>raw data into decisions</strong> &amp; <strong>ideas into automation</strong>.<br />
+          Data Analyst · AI/ML Engineer · GenAI Developer · AI Automation<br />
+          Building intelligent systems that actually matter.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View My Work</a>
+          <a href="mailto:pandalashivanetha@gmail.com" class="btn-secondary">Hire Me</a>
+          <a href="https://linkedin.com/in/shiva-pandala" target="_blank" class="btn-outline">Download Resume</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Internships</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Years Learning</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-badge" style="top:-20px;right:20px;animation-delay:0s;">
+          <div class="badge-dot"></div> Available for Work
+        </div>
+        <div class="floating-badge" style="bottom:-10px;left:10px;animation-delay:1s;">
+          🎯 Top 40 Intern — AICTE Shell
+        </div>
+        <div class="floating-badge" style="bottom:100px;right:-20px;animation-delay:2s;">
+          ☁️ Google Cloud Certified
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-inner">
+            <div class="code-block">
+              <span class="code-line"><span class="c-comment"># shiva.py</span></span>
+              <span class="code-line">&nbsp;</span>
+              <span class="code-line"><span class="c-purple">class</span> <span
+                  class="c-blue">ShivaPandala</span>:</span>
+              <span class="code-line">&nbsp; name <span class="c-purple">=</span> <span class="c-orange">"Pandala
+                  Shiva"</span></span>
+              <span class="code-line">&nbsp; location <span class="c-purple">=</span> <span
+                  class="c-orange">"Hyderabad"</span></span>
+              <span class="code-line">&nbsp; skills <span class="c-purple">=</span> [</span>
+              <span class="code-line">&nbsp;&nbsp;&nbsp;<span class="c-orange">"Python"</span>,<span
+                  class="c-orange">"SQL"</span>,<span class="c-orange">"AI & ML"</span>, <span class="c-orange">"Power
+                  BI"</span>,</span>
+              <span class="code-line">&nbsp;&nbsp;&nbsp;<span class="c-orange">"GenAI"</span>, <span
+                  class="c-orange">"n8n"</span>, <span class="c-orange">"Make.com"</span>,</span>
+              <span class="code-line">&nbsp;&nbsp;&nbsp;<span class="c-orange">"GCP"</span>, <span class="c-orange">"IBM
+                  Cloud"</span>, <span class="c-orange">"MCP"</span></span>
+              <span class="code-line">&nbsp; ]</span>
+              <span class="code-line">&nbsp; status <span class="c-purple">=</span> <span
+                  class="c-green">"open_to_work"</span></span>
+              <span class="code-line"><span class="typing-cursor"></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE — infinite loop -->
+  <div class="marquee-section">
+    <div class="marquee-wrapper">
+      <div class="marquee-track" id="mtrack"></div>
+      <div class="marquee-track" id="mtrack2" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <span class="section-label">// 01. about</span>
+      <h2 class="section-title">Who I <em>Am</em></h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I'm a <strong>B.Tech graduate (2026)</strong> in Computer Science Engineering from MRCET Hyderabad, with
+            hands-on experience in <strong>internships, freelancing, and building real-world AI & automation
+              systems</strong>.</p>
+          <p>From building a <strong>GenAI-powered financial literacy chatbot</strong> using IBM Watsonx to automating
+            full email outreach campaigns with Make.com and generating AI videos with n8n — I don't just learn tools, I
+            build systems that work.</p>
+          <p>I've trained at <strong>Masai School</strong>, interned with <strong>Google Cloud, IBM, and
+              AICTE-Shell</strong>, ranked in the <strong>top 40 interns nationally</strong>, and built real client
+            websites for local businesses. Beyond tech, I actively analyze financial markets using both technical and
+            fundamental analysis.</p>
+          <div class="currently-learning">
+            <div class="cl-title">// currently leveling up</div>
+            <div class="cl-items">
+              <span class="cl-item">LangChain</span>
+              <span class="cl-item">Advanced SQL</span>
+              <span class="cl-item">Tableau</span>
+              <span class="cl-item">MCP</span>
+              <span class="cl-item">Data Engineering</span>
+              <span class="cl-item">AI Agents</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-skills reveal">
+          <div class="skill-category">
+            <div class="skill-cat-name">// data & analytics</div>
+            <div class="skill-pills">
+              <span class="skill-pill">Python</span><span class="skill-pill">MySQL</span><span
+                class="skill-pill">Pandas</span><span class="skill-pill">NumPy</span><span class="skill-pill">Power
+                BI</span><span class="skill-pill">Advanced Excel</span><span class="skill-pill">Matplotlib</span><span
+                class="skill-pill">Seaborn</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-cat-name">// ai & cloud</div>
+            <div class="skill-pills">
+              <span class="skill-pill">IBM Watsonx.ai</span><span class="skill-pill">Vertex AI</span><span
+                class="skill-pill">BigQuery</span><span class="skill-pill">GCP</span><span
+                class="skill-pill">AutoAI</span><span class="skill-pill">RAG</span><span
+                class="skill-pill">LangChain</span><span class="skill-pill">Streamlit</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-cat-name">// automation & tools</div>
+            <div class="skill-pills">
+              <span class="skill-pill">n8n</span><span class="skill-pill">Make.com</span><span
+                class="skill-pill">Apify</span><span class="skill-pill">ElevenLabs</span><span
+                class="skill-pill">Netlify</span><span class="skill-pill">AI Automation</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-cat-name">// statistics & ml</div>
+            <div class="skill-pills">
+              <span class="skill-pill">EDA</span><span class="skill-pill">Hypothesis Testing</span><span
+                class="skill-pill">Random Forest</span><span class="skill-pill">Regression</span><span
+                class="skill-pill">Correlation Analysis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <span class="section-label">// 02. projects</span>
+      <h2 class="section-title">Things I've <em>Built</em></h2>
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+        <button class="filter-btn" onclick="filterProjects('da-ml',this)">DA &amp; ML</button>
+        <button class="filter-btn" onclick="filterProjects('genai',this)">GenAI</button>
+        <button class="filter-btn" onclick="filterProjects('web',this)">Web &amp; Apps</button>
+      </div>
+      <div class="projects-grid" id="projects-grid">
+
+        <!-- 01 COVID -->
+        <div class="project-card reveal" data-cat="da-ml">
+          <div class="project-number">01</div>
+          <div class="project-name">COVID-19 India Trend Analysis Dashboard</div>
+          <div class="project-desc">Analyzed 5,000+ records across Indian states. Built an interactive Power BI
+            dashboard tracking vaccination rates, recovery patterns, and state-wise COVID trends.</div>
+          <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">MySQL</span><span
+              class="tech-tag">Power BI</span><span class="tech-tag">Excel</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/Covid_19-Analysis-India" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- 02 Financial AI Agent -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">02</div>
+          <div class="project-name">Digital Financial Literacy AI Agent</div>
+          <div class="project-desc">Built a GenAI chatbot using IBM Watsonx.ai and RAG architecture capable of handling
+            10+ financial query categories — UPI, frauds, loans, and investment guidance.</div>
+          <div class="project-tech"><span class="tech-tag">IBM Watsonx.ai</span><span class="tech-tag">RAG</span><span
+              class="tech-tag">Agentic AI</span><span class="tech-tag">Granite</span><span class="tech-tag">NLP</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/Digital-Financial-Literacy-AI-agent" target="_blank"
+              class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- 03 EV -->
+        <div class="project-card reveal" data-cat="da-ml">
+          <div class="project-number">03</div>
+          <div class="project-name">EV Adoption Forecasting using ML &amp; Streamlit</div>
+          <div class="project-desc">Predicted EV adoption trends across Washington counties using Random Forest
+            Regressor. Built interactive Streamlit app for real-time visualization supporting infrastructure planning.
+          </div>
+          <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">Scikit-learn</span><span
+              class="tech-tag">Streamlit</span><span class="tech-tag">Random Forest</span><span
+              class="tech-tag">Pandas</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/EV-Adoption-Forecast" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://ev-adoption-forecasting.streamlit.app/" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- 04 AI Study Planner -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">04</div>
+          <div class="project-name">AI Study Planner</div>
+          <div class="project-desc">GenAI web application built with Streamlit and Groq API. Generates personalized
+            day-by-day study plans based on learning goals, skill levels, and custom study styles.</div>
+          <div class="project-tech"><span class="tech-tag">Groq API</span><span class="tech-tag">Streamlit</span><span
+              class="tech-tag">Python</span><span class="tech-tag">Prompt Engineering</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/AI-study-planner-groq-streamlit" target="_blank"
+              class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://ai-study-planner-llm.streamlit.app/" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- 05 AI Code Assistant -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">05</div>
+          <div class="project-name">AI Code Assistant &amp; Explainer</div>
+          <div class="project-desc">AI-powered Code Assistant built using Python, Streamlit, and the Groq API. Provides
+            step-by-step code explanations, bug detection, optimization suggestions, and time complexity insights across
+            multiple languages.</div>
+          <div class="project-tech"><span class="tech-tag">Groq API</span><span class="tech-tag">Streamlit</span><span
+              class="tech-tag">Python</span><span class="tech-tag">Llama-3</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/Code-Mentor-AI" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://code-mentor-agent.streamlit.app/" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- 06 RAG LangChain -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">06</div>
+          <div class="project-name">RAG with LangChain &amp; IBM Granite</div>
+          <div class="project-desc">Built a full RAG pipeline using LangChain, IBM Granite models, and Milvus vector DB.
+            Enables semantic document retrieval for customer support, legal, and scientific QA use cases.</div>
+          <div class="project-tech"><span class="tech-tag">LangChain</span><span class="tech-tag">IBM
+              Granite</span><span class="tech-tag">Milvus</span><span class="tech-tag">RAG</span><span
+              class="tech-tag">Python</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/RAG_with_Langchain" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- 07 Gemini Chatbot -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">07</div>
+          <div class="project-name">Gemini PDF Chatbot</div>
+          <div class="project-desc">Streamlit-based chatbot powered by Google Gemini 2.0 Flash. Users ask any question,
+            get AI-generated responses, and download the entire chat session as a formatted PDF.</div>
+          <div class="project-tech"><span class="tech-tag">Gemini API</span><span class="tech-tag">Streamlit</span><span
+              class="tech-tag">Python</span><span class="tech-tag">FPDF</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/Gemeni_Chatbot" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- 08 Math Mentor -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">08</div>
+          <div class="project-name">Math Mentor — Local RAG Assistant</div>
+          <div class="project-desc">Local RAG app using Streamlit, LangChain, FAISS, and Gemma via Ollama. Ask questions
+            from your math syllabus PDFs using vector search — fully offline, no external API needed.</div>
+          <div class="project-tech"><span class="tech-tag">LangChain</span><span class="tech-tag">FAISS</span><span
+              class="tech-tag">Ollama</span><span class="tech-tag">Gemma</span><span class="tech-tag">Streamlit</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/Math_Mentor_RAG" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- 09 StockMentor -->
+        <div class="project-card reveal" data-cat="genai">
+          <div class="project-number">09</div>
+          <div class="project-name">StockMentor AI Assistant</div>
+          <div class="project-desc">AI assistant built on Meta LLaMA 3.3 70B via Hugging Face for stock market
+            beginners. Covers technical analysis (RSI, MACD, candlesticks) and fundamental insights (P/E, ROE, ROCE)
+            conversationally.</div>
+          <div class="project-tech"><span class="tech-tag">LLaMA 3.3 70B</span><span class="tech-tag">Hugging
+              Face</span><span class="tech-tag">Prompt Engineering</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/stockmentor-ai-assistant" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://huggingface.co/chat/assistant/684b23b82508d350c6e4ee26" target="_blank"
+              class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- 10 Currency Converter -->
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-number">10</div>
+          <div class="project-name">Currency Converter</div>
+          <div class="project-desc">Responsive Flask web app supporting 160+ currencies with real-time exchange rates
+            via ExchangeRate-API. Clean Bootstrap UI with input validation and error handling.</div>
+          <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">Flask</span><span
+              class="tech-tag">HTML/CSS/JS</span><span class="tech-tag">Bootstrap</span><span class="tech-tag">REST
+              API</span></div>
+          <div class="project-links">
+            <a href="https://github.com/ShivaNetha1/currency-converter" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- View More on GitHub CTA -->
+        <div class="view-more reveal"
+          style="grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 3rem;">
+          <a href="https://github.com/ShivaNetha1" target="_blank" class="btn-outline"
+            style="font-size: 0.9rem; padding: 0.8rem 2rem; border-radius: 50px;">
+            For more, visit my GitHub ↗
+          </a>
+        </div>
+      </div>
+  </section>
+
+  <!-- AUTOMATIONS -->
+  <section id="automations">
+    <div class="container">
+      <span class="section-label">// 03. automations</span>
+      <h2 class="section-title">Workflows I've <em>Automated</em></h2>
+      <div class="auto-grid">
+
+        <!-- Make.com -->
+        <div class="auto-card reveal">
+          <div class="auto-icon">⚙️</div>
+          <div class="auto-badge">Make.com · No-Code</div>
+          <div class="auto-name">Automated Client Email Outreach Campaign</div>
+          <div class="auto-desc">Full end-to-end email outreach pipeline — reads leads from Google Sheets, filters
+            invalid/already-contacted entries, downloads attachments from Drive, sends personalized HTML emails, and
+            auto-marks rows as sent. Zero duplicates. Zero manual effort.</div>
+          <div class="auto-flow">
+            Google Sheets <span>→</span> Filter Invalid Leads <span>→</span> Google Drive Attachments <span>→</span>
+            Personalized Gmail <span>→</span> Mark Row Sent ✅
+          </div>
+          <div class="project-tech" style="margin-top:0.5rem;">
+            <span class="tech-tag">Make.com</span><span class="tech-tag">Google Sheets</span><span
+              class="tech-tag">Gmail</span><span class="tech-tag">Google Drive</span><span class="tech-tag">HTTP
+              Module</span>
+          </div>
+          <div class="project-links" style="margin-top:1rem;">
+            <a href="https://github.com/ShivaNetha1/Automated-Client-Email-Outreach---Make.com" target="_blank"
+              class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://eu1.make.com/public/shared-scenario/6sY2FsH5hGj/automated-client-email-campaign-media"
+              target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Scenario Blueprint
+            </a>
+          </div>
+        </div>
+
+        <!-- n8n -->
+        <div class="auto-card reveal">
+          <div class="auto-icon">🤖</div>
+          <div class="auto-badge">n8n · AI Automation</div>
+          <div class="auto-name">AI Video Generation &amp; YouTube Upload System</div>
+          <div class="auto-desc">Fully automated faceless content pipeline — generates viral video ideas using AI,
+            converts them into cinematic prompts, generates videos, tracks everything in Google Sheets, and uploads
+            directly to YouTube on a schedule. 90% reduction in manual effort.</div>
+          <div class="auto-flow">
+            Schedule Trigger <span>→</span> AI Idea Generator <span>→</span> Google Sheets <span>→</span> Prompt
+            Generator <span>→</span> Video Gen <span>→</span> YouTube Upload ✅
+          </div>
+          <div class="project-tech" style="margin-top:0.5rem;">
+            <span class="tech-tag">n8n</span><span class="tech-tag">Gemini/OpenAI</span><span class="tech-tag">YouTube
+              API</span><span class="tech-tag">Google Sheets</span><span class="tech-tag">RunwayML</span>
+          </div>
+          <div class="project-links" style="margin-top:1rem;">
+            <a href="https://github.com/ShivaNetha1/n8n-AI-Video-Automation" target="_blank" class="project-link">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            <a href="https://drive.google.com/file/d/1rzZCNPaDkj0_Cn1hcONe93k_7hfu7Krb/view" target="_blank"
+              class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+              Demo Video
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FREELANCE -->
+  <section id="freelance">
+    <div class="container">
+      <span class="section-label">// 04. freelance work</span>
+      <h2 class="section-title">Real Client <em>Delivery</em></h2>
+      <div class="freelance-card reveal">
+        <div class="freelance-inner">
+          <div class="freelance-content">
+            <span class="freelance-badge">✅ Live Client Project</span>
+            <div class="freelance-name">Moonlight Cafe &amp; Arena</div>
+            <div class="freelance-desc">Built a complete responsive website for a real local business — a Coffee &amp;
+              Pizza Corner combined with Box Cricket and Gaming Arena in Sadasivpet. Delivered free of cost for a
+              friend's business. Handled everything: design, development, deployment, Google Maps Business Profile
+              setup, analytics, and SEO basics.</div>
+            <div class="freelance-stack">
+              <span class="tech-tag">React</span><span class="tech-tag">TypeScript</span><span
+                class="tech-tag">Vite</span><span class="tech-tag">Tailwind CSS</span><span
+                class="tech-tag">Netlify</span><span class="tech-tag">GA4</span><span
+                class="tech-tag">AI-Assisted</span>
+            </div>
+            <div class="freelance-links">
+              <a href="https://moonlight-cafe-n-arena.netlify.app/" target="_blank" class="btn-primary"
+                style="font-size:0.8rem;padding:0.7rem 1.5rem;">🌐 Live Website</a>
+              <a href="https://github.com/ShivaNetha1/moonlight-cafe-and-arena" target="_blank" class="btn-secondary"
+                style="font-size:0.8rem;padding:0.7rem 1.5rem;">GitHub</a>
+              <a href="https://www.youtube.com/watch?v=E1EUpcecUS0&feature=youtu.be" target="_blank"
+                class="btn-secondary" style="font-size:0.8rem;padding:0.7rem 1.5rem;">▶ Tutorial</a>
+              <a href="https://www.linkedin.com/posts/shiva-pandala_github-shivanetha1moonlight-cafe-and-arena-activity-7404179956114849792-t6_f"
+                target="_blank" class="btn-secondary" style="font-size:0.8rem;padding:0.7rem 1.5rem;">LinkedIn Post</a>
+            </div>
+          </div>
+          <div class="freelance-visual">🌙☕🏏</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERNSHIPS -->
+  <section id="internships">
+    <div class="container">
+      <span class="section-label">// 05. experience</span>
+      <h2 class="section-title">Where I've <em>Worked</em></h2>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Jul 2025 – Aug 2025</div>
+          <div class="timeline-title">AICTE-Edunet-IBM SkillsBuild Internship</div>
+          <div class="timeline-org">AI &amp; Cloud Technologies</div>
+          <div class="timeline-desc">Developed a Financial Literacy AI Agent using IBM Watsonx.ai, Agentic AI, and cloud
+            NLP tools. Delivered a fully functional agent capable of handling 10+ financial query categories using RAG
+            architecture.</div>
+          <span class="timeline-highlight">IBM Cloud · Watsonx.ai · RAG · AutoAI</span>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Jul 2025 – Aug 2025</div>
+          <div class="timeline-title">AICTE-Shell-Edunet Green Skills Internship</div>
+          <div class="timeline-org">Sustainability &amp; ML</div>
+          <div class="timeline-desc">Built an EV Adoption Forecasting model using Python and ML techniques. Ranked among
+            the top 40 interns nationally out of hundreds of applicants across India.</div>
+          <span class="timeline-highlight">🏆 Top 40 Nationally · Python · ML · Forecasting</span>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">May 2025 – Jul 2025</div>
+          <div class="timeline-title">Google Cloud Summer Internship</div>
+          <div class="timeline-org">Generative AI — L4G Program</div>
+          <div class="timeline-desc">Completed 45 hours of training earning 24+ skill badges across beginner to advanced
+            GenAI tracks on Google Cloud Skills Boost. Explored Vertex AI, foundation models, BigQuery, and ML
+            deployment workflows.</div>
+          <span class="timeline-highlight">Vertex AI · BigQuery · Foundation Models · 24+ Badges</span>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Feb 2023 – Sep 2023</div>
+          <div class="timeline-title">Masai School</div>
+          <div class="timeline-org">Data Analytics Training — 7 Months</div>
+          <div class="timeline-desc">Intensive data analytics training covering data preprocessing, visualization, and
+            analysis. Worked on real-world projects using Python, Pandas, and Power BI. Built strong foundations in
+            data-driven decision-making.</div>
+          <span class="timeline-highlight">Python · MySQL · Power BI · Advanced Excel · 7 Months</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="container">
+
+      <span class="section-label">// 06. certifications</span>
+      <h2 class="section-title">What I've <em>Earned</em></h2>
+
+      <div class="certs-grid">
+
+        <!-- TOP CERTS -->
+        <div class="cert-card reveal">
+          <div class="cert-icon">🗄️</div>
+          <div class="cert-info">
+            <div class="cert-name">SQL (Advanced)</div>
+            <div class="cert-issuer">HackerRank</div>
+            <a href="https://www.hackerrank.com/certificates/ee5c7442d152" target="_blank" class="cert-btn">View
+              Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">💻</div>
+          <div class="cert-info">
+            <div class="cert-name">Python</div>
+            <div class="cert-issuer">HackerRank</div>
+            <a href="https://www.hackerrank.com/certificates/2c2d8e3097ba" target="_blank" class="cert-btn">View
+              Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🧩</div>
+          <div class="cert-info">
+            <div class="cert-name">Problem Solving</div>
+            <div class="cert-issuer">HackerRank</div>
+            <a href="https://www.hackerrank.com/certificates/57d56ebae7b0" target="_blank" class="cert-btn">View
+              Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🔗</div>
+          <div class="cert-info">
+            <div class="cert-name">Fundamentals of MCP</div>
+            <div class="cert-issuer">Hugging Face</div>
+            <a href="https://huggingface.co/spaces/mcp-course/unit_1_quiz/discussions/184#69cab236c6658f3c31d0b270"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🤖</div>
+          <div class="cert-info">
+            <div class="cert-name">Getting Started with Artificial Intelligence</div>
+            <div class="cert-issuer">IBM SkillsBuild</div>
+            <a href="https://www.credly.com/badges/edb39b4b-8250-4068-84c3-d2420f9d0480/public_url" target="_blank"
+              class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🌐</div>
+          <div class="cert-info">
+            <div class="cert-name">Journey to Cloud</div>
+            <div class="cert-issuer">IBM SkillsBuild</div>
+            <a href="https://www.credly.com/badges/23ac8fbe-2b29-4177-915e-7d7bcd5d151e/linked_in_profile"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🎯</div>
+          <div class="cert-info">
+            <div class="cert-name">Prompt Design in Vertex AI</div>
+            <div class="cert-issuer">Google Cloud Skills Boost</div>
+            <a href="https://www.credly.com/badges/fa4eb993-a425-41b7-8988-8c6828f149cf/linked_in_profile"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🔍</div>
+          <div class="cert-info">
+            <div class="cert-name">Inspect Rich Documents with Gemini Multimodal RAG</div>
+            <div class="cert-issuer">Google Cloud Skills Boost</div>
+            <a href="https://www.credly.com/badges/096ea37c-0cef-46e5-9626-1dbb18cd982a/linked_in_profile"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">☁️</div>
+          <div class="cert-info">
+            <div class="cert-name">Develop GenAI Apps with Gemini & Streamlit</div>
+            <div class="cert-issuer">Google Cloud Skills Boost</div>
+            <a href="https://www.credly.com/badges/2c432010-7fc0-4673-ac0e-a68bc66e3086/linked_in_profile"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <!-- OTHER CERTS -->
+        <div class="cert-card reveal">
+          <div class="cert-icon">🛡️</div>
+          <div class="cert-info">
+            <div class="cert-name">Cybersecurity Fundamentals</div>
+            <div class="cert-issuer">IBM</div>
+            <a href="https://www.credly.com/badges/6a52d56b-6762-48e5-9854-7712ff227d95/linked_in_profile"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🌱</div>
+          <div class="cert-info">
+            <div class="cert-name">Generative AI Literacy</div>
+            <div class="cert-issuer">NASSCOM FutureSkills</div>
+            <a href="https://www.futureskillsprime.in/iDH/user/credential/view/32914-e5537aed-9147-11f0-bdec-005056b48b54"
+              target="_blank" class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🔌</div>
+          <div class="cert-info">
+            <div class="cert-name">CCNA: Introduction to Networks</div>
+            <div class="cert-issuer">Cisco Networking Academy</div>
+            <a href="https://www.credly.com/badges/2589b306-1215-4376-be0b-d47c70b765b0/public_url" target="_blank"
+              class="cert-btn">View Certificate ↗</a>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">💰</div>
+          <div class="cert-info">
+            <div class="cert-name">Financial Literacy Course for Bharat</div>
+            <div class="cert-issuer">SEBI / Fintech Program</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">📊</div>
+          <div class="cert-info">
+            <div class="cert-name">Digital Application Fundamentals (STEM)</div>
+            <div class="cert-issuer">NASSCOM</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Credly Banner OUTSIDE GRID -->
+      <div class="credly-banner reveal">
+        <div class="credly-text">
+          <strong>View all verified badges</strong> — Google Developer Profile with all badges earned from Google Cloud
+          Skills Boost .
+        </div>
+        <a href="https://www.skills.google/public_profiles/685790e6-556b-4f15-8064-aedd490e62c2" target="_blank"
+          class="btn-primary">
+          Google Developer Profile ↗
+        </a>
+      </div>
+
+      <div class="credly-banner reveal">
+        <div class="credly-text">
+          <strong>View all verified badges</strong> — Credly Profile with all IBM, Google Cloud & Cisco badges in one
+          place.
+        </div>
+        <a href="https://www.credly.com/users/pandalashiva/badges#credly" target="_blank" class="btn-primary">
+          View Credly Profile ↗
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <span class="section-label">// 07. contact</span>
+      <h2 class="section-title">Let's <em>Connect</em></h2>
+      <p class="contact-tagline">Open to Data Analyst, AI/ML, GenAI, Data Engineering &amp; AI Automation roles. Let's
+        build something meaningful together.</p>
+      <div class="contact-links">
+        <a href="mailto:pandalashivanetha@gmail.com" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          Email Me
+        </a>
+        <a href="https://linkedin.com/in/shiva-pandala" class="contact-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+            <circle cx="4" cy="4" r="2" />
+          </svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/ShivaNetha1" class="contact-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          GitHub
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">PS.</div>
+    <div class="footer-text">© 2025 Pandala Shiva · Built with HTML, CSS &amp; passion for Data &amp; Automation</div>
+    <div class="footer-text">Hyderabad, India 🇮🇳 · "Don’t solve the problem — automate it, so it solves itself."</div>
+  </footer>
+
+  <script>
+    // ── Theme toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
+    }
+
+    // ── Infinite marquee — clone track so ribbon loops seamlessly
+    const items = [
+      'Python', 'Power BI', 'SQL', 'Machine Learning', 'GenAI',
+      'Google Cloud', 'IBM Watsonx', 'Data Analytics', 'Vibe Coding',
+      'n8n', 'Make.com', 'Workflow Automation', 'LangChain',
+      'RAG', 'Streamlit', 'MCP', 'netlify', 'Excel', 'Github',
+      'apify', 'Prompt Engineering', 'AI Agents', 'Claude',
+      'ChatGPT', 'Gemini', 'Antigravity', 'streamlit'
+    ];
+    function buildTrack(el) {
+      // repeat items 3x so there's always content visible during scroll
+      const html = items.map(i => `<div class="marquee-item">${i} <span>✦</span></div>`).join('');
+      el.innerHTML = html + html + html;
+    }
+    buildTrack(document.getElementById('mtrack'));
+    buildTrack(document.getElementById('mtrack2'));
+
+    // ── Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Active nav
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.getAttribute('id'); });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+      });
+    });
+
+    // ── Project filter
+    function filterProjects(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.project-card').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
