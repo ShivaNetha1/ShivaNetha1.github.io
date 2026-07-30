@@ -351,6 +351,14 @@
       transition: border-color 0.2s ease;
     }
 
+    .suggested-prompts-header {
+      font-size: 0.82rem;
+      color: var(--text2);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
     .chatbot-input:focus {
       border-color: var(--accent);
     }
@@ -381,6 +389,54 @@
       letter-spacing: 0.02em;
       opacity: 0.85;
       line-height: 1.35;
+    }
+
+    .welcome-overlay.hidden {
+      display: none;
+    }
+
+    .suggested-prompts {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border-radius: 0 0 18px 18px;
+      margin: 0 1rem 0.5rem;
+    }
+
+    .suggested-prompts.visible {
+      display: flex;
+    }
+
+    .suggested-prompt {
+      background: rgba(0, 245, 196, 0.12);
+      border: 1px solid rgba(0, 245, 196, 0.2);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .suggested-prompt:hover,
+    .suggested-prompt:focus {
+      background: rgba(0, 245, 196, 0.18);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .suggested-prompt:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     @media (max-width: 820px) {
@@ -1521,29 +1577,41 @@
 
     /* ── Suggested Prompts ─────────────────────────────────── */
     .suggested-prompts {
-      margin-top: 0.75rem;
-      display: flex;
+      display: none;
+      padding: 0.7rem 1rem 0.2rem;
+      background: var(--surface2);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       flex-wrap: wrap;
-      gap: 0.5rem;
-      max-height: 3rem;
-      overflow-y: auto;
+      gap: 0.55rem;
+      flex-shrink: 0;
+    }
+    .suggested-prompts.visible {
+      display: flex;
     }
     .suggested-prompt {
-      background: rgba(0, 245, 196, 0.08);
+      background: rgba(0, 245, 196, 0.1);
       border: 1px solid rgba(0, 245, 196, 0.25);
-      border-radius: 6px;
-      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      padding: 0.48rem 0.78rem;
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--text2);
-      transition: background 0.2s, transform 0.1s, border-color 0.2s;
+      line-height: 1.2;
+      transition: background 0.2s, transform 0.18s, border-color 0.2s, color 0.2s;
       font-family: 'DM Sans', sans-serif;
+      animation: promptFloat 3s ease-in-out infinite;
     }
+    .suggested-prompt:nth-child(2) { animation-delay: 0.18s; }
+    .suggested-prompt:nth-child(3) { animation-delay: 0.36s; }
     .suggested-prompt:hover {
       background: rgba(0, 245, 196, 0.18);
       border-color: var(--accent);
       color: var(--text);
       transform: translateY(-1px);
+    }
+    @keyframes promptFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
     }
 
     /* ── Welcome Overlay ───────────────────────────────────── */
@@ -2566,7 +2634,7 @@
         <div class="welcome-avatar">🤖</div>
         <h2 class="welcome-title">Hi, I'm Shiv AI</h2>
         <p class="welcome-subtitle">
-          Explore Pandala Shiva's projects, skills, experience, and AI automation work with Shiv AI.
+          Welcome! I'm your AI guide to Shiva's portfolio. Ask me about projects, skills, experience, certifications, or career journey.
         </p>
         <div class="welcome-cta">
           <button class="welcome-btn" id="startChatBtn">Start Conversation</button>
@@ -2574,7 +2642,7 @@
       </div>
       <div class="chatbot-body" id="chatbotBody">
         <div class="chatbot-message bot">
-          Hi there! Ask me about my projects, experience, skills, or how I build AI automation.
+          Hi there! Ask me about my projects, experience, skills, or how I build AI driven solutions.
         </div>
       </div>
       <div class="suggested-prompts" id="suggestedPrompts"></div>
@@ -2583,7 +2651,7 @@
           <input id="chatbotInput" class="chatbot-input" type="text" placeholder="Ask Shiv AI" autocomplete="off" />
           <button id="chatbotSend" class="chatbot-send" type="button">Send</button>
         </div>
-        <div class="chatbot-status" id="chatbotStatus">Shiv AI answers from Shiva's portfolio knowledge base.</div>
+        <div class="chatbot-status" id="chatbotStatus">I'm a chatbot, I can make mistakes. Please contact the admin for accurate information.</div>
       </div>
     </div>
   </div>
@@ -2652,9 +2720,25 @@
     const chatbotInput = document.getElementById('chatbotInput');
     const chatbotSend = document.getElementById('chatbotSend');
     const chatbotStatus = document.getElementById('chatbotStatus');
+    const suggestedPrompts = document.getElementById('suggestedPrompts');
     const welcomeOverlay = document.getElementById('welcomeOverlay');
     const startChatBtn = document.getElementById('startChatBtn');
     const skipIntroBtn = document.getElementById('skipIntroBtn');
+    const chatbotDisclaimer = "I'm a chatbot, I can make mistakes. Please contact the admin for accurate information.";
+    const starterQuestions = [
+      {
+        label: "Show Shiva's core skills",
+        question: "List out the skills Shiva has."
+      },
+      {
+        label: 'Introduce Shiva',
+        question: "Introduce Shiva and summarize his portfolio."
+      },
+      {
+        label: 'Contact Shiva',
+        question: "How can I contact Shiva?"
+      }
+    ];
 
     let isTyping = false;
     let typingInterval = null;
@@ -2703,6 +2787,38 @@
       typingIndicator.style.display = 'none';
     }
 
+    function hideStarterQuestions() {
+      if (suggestedPrompts) {
+        suggestedPrompts.classList.remove('visible');
+        suggestedPrompts.innerHTML = '';
+      }
+    }
+
+    function renderStarterQuestions() {
+      if (!suggestedPrompts) return;
+
+      suggestedPrompts.innerHTML = '';
+      const header = document.createElement('div');
+      header.className = 'suggested-prompts-header';
+      header.textContent = 'Quick starter questions';
+      suggestedPrompts.appendChild(header);
+
+      starterQuestions.forEach(prompt => {
+        const button = document.createElement('button');
+        button.className = 'suggested-prompt';
+        button.type = 'button';
+        button.textContent = prompt.label;
+        button.setAttribute('aria-label', prompt.question);
+        button.addEventListener('click', () => {
+          if (chatbotInput.disabled) return;
+          hideStarterQuestions();
+          sendChatMessage(prompt.question);
+        });
+        suggestedPrompts.appendChild(button);
+      });
+      suggestedPrompts.classList.add('visible');
+    }
+
     function toggleChat() {
       chatbotOpen = !chatbotOpen;
       chatbotWidget.classList.toggle('open', chatbotOpen);
@@ -2710,6 +2826,9 @@
       chatbotPanel.setAttribute('aria-hidden', !chatbotOpen);
       if (chatbotOpen) {
         chatbotInput.focus();
+        if (!suggestedPrompts.classList.contains('visible') && chatbotBody.querySelectorAll('.chatbot-message.user').length === 0) {
+          renderStarterQuestions();
+        }
       }
     }
 
@@ -2719,6 +2838,7 @@
         sessionStorage.setItem('welcomeDismissed', 'true');
       }
       chatbotInput.focus();
+      renderStarterQuestions();
     }
 
     if (startChatBtn) {
@@ -2747,15 +2867,18 @@
       toggleChat();
     });
 
-    function sendChatMessage() {
-      const text = chatbotInput.value.trim();
+    renderStarterQuestions();
+
+    function sendChatMessage(presetText = '') {
+      const text = (presetText || chatbotInput.value).trim();
       if (!text) return;
 
+      hideStarterQuestions();
       appendChatMessage(text, 'user');
       chatbotInput.value = '';
       chatbotInput.disabled = true;
       chatbotSend.disabled = true;
-      setChatStatus('Thinking...');
+      setChatStatus(chatbotDisclaimer);
       showTypingIndicator();
 
       const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -2778,12 +2901,12 @@
         })
         .then(data => {
           appendChatMessage(data?.response || 'Sorry, I could not get a response.', 'bot');
-          setChatStatus('Powered by Groq AI');
+          setChatStatus(chatbotDisclaimer);
         })
         .catch(error => {
           console.error('Chatbot error:', error);
           appendChatMessage('Unable to connect to the chat service. Please ensure GROQ_API_KEY is configured on Vercel.', 'bot');
-          setChatStatus('Chat service error');
+          setChatStatus(chatbotDisclaimer);
         })
         .finally(() => {
           hideTypingIndicator();
