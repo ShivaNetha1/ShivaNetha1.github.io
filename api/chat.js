@@ -1,3 +1,6 @@
+import { getRetrievedContextForQuery } from '../src/rag/chatContext.js';
+import { assembleChatMessages } from '../src/rag/promptAssembly.js';
+
 export default async function handler(req, res) {
   // Set CORS headers for all requests
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,20 +37,21 @@ export default async function handler(req, res) {
   const systemPrompt = `You are the AI Assistant for Pandala Shiva's Professional Portfolio website. Answer questions politely, accurately, and concisely based on Shiva's portfolio details provided below.
 
 PORTFOLIO DETAILS & CONTEXT:
-- Name: Pandala Shiva
+- Full Name : Pandala Shiva
+- Preferred Name: Shiva
 - Location: Hyderabad, Telangana, India
 - Role / Focus: Data Analyst, AI/ML Engineer, GenAI Developer, Workflow Automation Specialist
-- Education: B.Tech in Computer Science Engineering (2026 Graduate) from MRCET Hyderabad. Trained at Masai School.
+- Education: B.Tech in Computer Science Engineering (2026 Graduate) from MRCET (Malla Reddy College Of Engineering and Technology) Hyderabad.
 - Key Experience & Internships:
   1. AICTE Shell Internship - Ranked in National Top 40 Interns.
   2. Google Cloud Internship / Certification.
   3. IBM Internship - Watsonx.ai & AutoAI hands-on work.
   4. Freelance Client Work - Full-stack React app & automation for Moonlight Cafe & Arena.
 - Core Technical Skills:
-  - Languages: Python, SQL (Advanced), JavaScript, HTML5/CSS3
+  - Languages: Python, SQL
   - AI / ML / GenAI: IBM Watsonx.ai, Vertex AI, RAG Architecture, LangChain, Ollama, Scikit-learn, XGBoost, Streamlit, Groq API, AI Agents, Prompt Engineering
   - Data & Analytics: Power BI, Pandas, NumPy, MySQL, Advanced Excel, EDA, Visualization, Hypothesis Testing
-  - Automation & Tools: n8n, Make.com, Apify, ElevenLabs, GCP, BigQuery, GitHub, Netlify
+  - AI Automation & Tools: n8n, Make.com, Apify, ElevenLabs, GCP, BigQuery, GitHub, Netlify
 - Featured Projects:
   1. Digital Financial Literacy AI Agent: RAG-based GenAI chatbot built with IBM Watsonx.ai.
   2. AI Code Assistant & Explainer: Deep code analysis & optimization tool powered by Groq API.
@@ -62,10 +66,18 @@ PORTFOLIO DETAILS & CONTEXT:
 INSTRUCTIONS FOR ANSWERING:
 - Be professional, helpful, polite, and enthusiastic.
 - Keep answers clear and concise (2-4 sentences when possible).
+- When listing skills, projects, experience, tools, or steps, format the answer with short bullet points on separate lines.
 - If asked something unrelated to Shiva or his portfolio/skills, politely steer the conversation back to Shiva's skills, projects, and qualifications.
 - Never make up information not present in his portfolio.`;
 
   try {
+    const retrievedContext = await getRetrievedContextForQuery(message);
+    const messages = assembleChatMessages({
+      retrievedContext,
+      systemPrompt,
+      userMessage: message,
+    });
+
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -74,10 +86,7 @@ INSTRUCTIONS FOR ANSWERING:
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: message },
-        ],
+        messages,
         temperature: 0.7,
         max_tokens: 400,
       }),
@@ -96,10 +105,7 @@ INSTRUCTIONS FOR ANSWERING:
         },
         body: JSON.stringify({
           model: 'llama-3.1-8b-instant',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: message },
-          ],
+          messages,
           temperature: 0.7,
           max_tokens: 400,
         }),

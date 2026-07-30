@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+.codex-dev-server*.log
+.claude/
+.vercel/
+.venv/
+
+.vercel
+.env*

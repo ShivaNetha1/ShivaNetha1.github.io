@@ -303,6 +303,7 @@
       font-size: 0.92rem;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
       word-break: break-word;
+      white-space: pre-line;
       transition: transform 0.2s ease;
     }
 
@@ -1494,6 +1495,132 @@
         text-align: center;
       }
     }
+
+    /* ── Typing Indicator ─────────────────────────────────── */
+    .typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 0;
+    }
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: typingPulse 1.4s infinite ease-in-out;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingPulse {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-4px); }
+    }
+
+    /* ── Suggested Prompts ─────────────────────────────────── */
+    .suggested-prompts {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      max-height: 3rem;
+      overflow-y: auto;
+    }
+    .suggested-prompt {
+      background: rgba(0, 245, 196, 0.08);
+      border: 1px solid rgba(0, 245, 196, 0.25);
+      border-radius: 6px;
+      padding: 0.4rem 0.85rem;
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: var(--text2);
+      transition: background 0.2s, transform 0.1s, border-color 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .suggested-prompt:hover {
+      background: rgba(0, 245, 196, 0.18);
+      border-color: var(--accent);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    /* ── Welcome Overlay ───────────────────────────────────── */
+    .welcome-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-align: center;
+      padding: 2rem;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      border-radius: 20px;
+    }
+    .welcome-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .welcome-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 245, 196, 0.25);
+    }
+    .welcome-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+    .welcome-subtitle {
+      margin: 0 0 1.5rem;
+      font-size: 0.9rem;
+      max-width: 280px;
+      line-height: 1.5;
+      color: var(--text2);
+    }
+    .welcome-cta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .welcome-btn {
+      background: var(--accent);
+      color: #060610;
+      border: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .welcome-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 245, 196, 0.3);
+    }
+    .welcome-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text2);
+    }
+    .welcome-btn.secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
   </style>
 
 
@@ -2435,9 +2562,24 @@
         <h3>Shiva AI</h3>
         <button class="chatbot-close" id="chatbotClose" aria-label="Close chat" type="button">×</button>
       </div>
-      <div class="chatbot-body" id="chatbotBody">
-        <div class="chatbot-message bot">Hi there! Ask me about my projects, experience, skills, or how I build AI automation.</div>
+      <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-avatar">🤖</div>
+        <h2 class="welcome-title">Hi, I'm Shiva AI</h2>
+        <p class="welcome-subtitle">
+          I can tell you about Pandala Shiva's projects, skills, experience, and AI automation work.
+          Just ask me anything about his portfolio!
+        </p>
+        <div class="welcome-cta">
+          <button class="welcome-btn" id="startChatBtn">Start Chat</button>
+          <button class="welcome-btn secondary" id="skipIntroBtn">Skip Intro</button>
+        </div>
       </div>
+      <div class="chatbot-body" id="chatbotBody">
+        <div class="chatbot-message bot">
+          Hi there! Ask me about my projects, experience, skills, or how I build AI automation.
+        </div>
+      </div>
+      <div class="suggested-prompts" id="suggestedPrompts"></div>
       <div class="chatbot-input-wrap">
         <div class="chatbot-input-row">
           <input id="chatbotInput" class="chatbot-input" type="text" placeholder="Ask a question..." autocomplete="off" />
@@ -2513,14 +2655,35 @@
     const chatbotSend = document.getElementById('chatbotSend');
     const chatbotStatus = document.getElementById('chatbotStatus');
 
+    let isTyping = false;
+    let typingInterval = null;
+
+    // Typing indicator element
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'chatbot-message bot typing';
+    typingIndicator.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+    typingIndicator.style.display = 'none';
+    chatbotBody.appendChild(typingIndicator);
+
     let chatbotOpen = false;
 
     function appendChatMessage(text, sender) {
       const msg = document.createElement('div');
       msg.className = `chatbot-message ${sender}`;
       msg.textContent = text;
+      msg.style.opacity = '0';
       chatbotBody.appendChild(msg);
-      chatbotBody.scrollTop = chatbotBody.scrollHeight;
+
+      // Auto-scroll to keep chat viewable
+      requestAnimationFrame(() => {
+        chatbotBody.scrollTop = chatbotBody.scrollHeight;
+      });
+
+      // Animate message appearance
+      requestAnimationFrame(() => {
+        msg.style.transition = 'opacity 0.3s ease';
+        msg.style.opacity = '1';
+      });
     }
 
     function setChatStatus(text) {
