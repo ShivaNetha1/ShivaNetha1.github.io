@@ -2654,6 +2654,9 @@
     const chatbotInput = document.getElementById('chatbotInput');
     const chatbotSend = document.getElementById('chatbotSend');
     const chatbotStatus = document.getElementById('chatbotStatus');
+    const welcomeOverlay = document.getElementById('welcomeOverlay');
+    const startChatBtn = document.getElementById('startChatBtn');
+    const skipIntroBtn = document.getElementById('skipIntroBtn');
 
     let isTyping = false;
     let typingInterval = null;
@@ -2697,10 +2700,52 @@
       chatbotPanel.setAttribute('aria-hidden', !chatbotOpen);
       if (chatbotOpen) {
         chatbotInput.focus();
+        // Check if welcome overlay exists and hide it on first open
+        if (welcomeOverlay && !sessionStorage.getItem('welcomeDismissed')) {
+          welcomeOverlay.classList.add('hidden');
+          sessionStorage.setItem('welcomeDismissed', 'true');
+        }
       }
     }
 
+    // Add event listeners for welcome buttons
+    if (startChatBtn) {
+      startChatBtn.addEventListener('click', () => {
+        if (welcomeOverlay) {
+          welcomeOverlay.classList.add('hidden');
+          sessionStorage.setItem('welcomeDismissed', 'true');
+        }
+        // Open the chat after dismissing welcome
+        setTimeout(() => {
+          toggleChat();
+        }, 100);
+      });
+    }
+
+    if (skipIntroBtn) {
+      skipIntroBtn.addEventListener('click', () => {
+        if (welcomeOverlay) {
+          welcomeOverlay.classList.add('hidden');
+          sessionStorage.setItem('welcomeDismissed', 'true');
+        }
+        // Open the chat after dismissing welcome
+        setTimeout(() => {
+          toggleChat();
+        }, 100);
+      });
+    }
+
+    function showWelcomeOverlay() {
+      if (welcomeOverlay && !sessionStorage.getItem('welcomeDismissed')) {
+        welcomeOverlay.classList.remove('hidden');
+      }
+    }
+
+    // Setup event listeners for toggle buttons
     chatbotToggle.addEventListener('click', () => {
+      if (!chatbotOpen) {
+        showWelcomeOverlay();
+      }
       toggleChat();
     });
 
