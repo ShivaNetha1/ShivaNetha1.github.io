@@ -2700,39 +2700,23 @@
       chatbotPanel.setAttribute('aria-hidden', !chatbotOpen);
       if (chatbotOpen) {
         chatbotInput.focus();
-        // Check if welcome overlay exists and hide it on first open
-        if (welcomeOverlay && !sessionStorage.getItem('welcomeDismissed')) {
-          welcomeOverlay.classList.add('hidden');
-          sessionStorage.setItem('welcomeDismissed', 'true');
-        }
       }
     }
 
-    // Add event listeners for welcome buttons
+    function dismissWelcomeOverlay() {
+      if (welcomeOverlay) {
+        welcomeOverlay.classList.add('hidden');
+        sessionStorage.setItem('welcomeDismissed', 'true');
+      }
+      chatbotInput.focus();
+    }
+
     if (startChatBtn) {
-      startChatBtn.addEventListener('click', () => {
-        if (welcomeOverlay) {
-          welcomeOverlay.classList.add('hidden');
-          sessionStorage.setItem('welcomeDismissed', 'true');
-        }
-        // Open the chat after dismissing welcome
-        setTimeout(() => {
-          toggleChat();
-        }, 100);
-      });
+      startChatBtn.addEventListener('click', dismissWelcomeOverlay);
     }
 
     if (skipIntroBtn) {
-      skipIntroBtn.addEventListener('click', () => {
-        if (welcomeOverlay) {
-          welcomeOverlay.classList.add('hidden');
-          sessionStorage.setItem('welcomeDismissed', 'true');
-        }
-        // Open the chat after dismissing welcome
-        setTimeout(() => {
-          toggleChat();
-        }, 100);
-      });
+      skipIntroBtn.addEventListener('click', dismissWelcomeOverlay);
     }
 
     function showWelcomeOverlay() {
